@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_todolist" default="compile.module.todolist">
+  <dirname property="module.todolist.basedir" file="${ant.file.module_todolist}"/>
+  
+  <property name="module.jdk.home.todolist" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.todolist" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.todolist" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.todolist" value="-encoding UTF-8 -source 10 -target 10 ${compiler.args}"/>
+  
+  <property name="todolist.output.dir" value="${module.todolist.basedir}/out/production/ToDoList"/>
+  <property name="todolist.testoutput.dir" value="${module.todolist.basedir}/out/test/ToDoList"/>
+  
+  <path id="todolist.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="todolist.module.production.classpath">
+    <path refid="${module.jdk.classpath.todolist}"/>
+  </path>
+  
+  <path id="todolist.runtime.production.module.classpath">
+    <pathelement location="${todolist.output.dir}"/>
+  </path>
+  
+  <path id="todolist.module.classpath">
+    <path refid="${module.jdk.classpath.todolist}"/>
+    <pathelement location="${todolist.output.dir}"/>
+  </path>
+  
+  <path id="todolist.runtime.module.classpath">
+    <pathelement location="${todolist.testoutput.dir}"/>
+    <pathelement location="${todolist.output.dir}"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.todolist">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.todolist">
+    <patternset refid="excluded.from.module.todolist"/>
+  </patternset>
+  
+  <path id="todolist.module.sourcepath">
+    <dirset dir="${module.todolist.basedir}">
+      <include name="src"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.todolist" depends="compile.module.todolist.production,compile.module.todolist.tests" description="Compile module ToDoList"/>
+  
+  <target name="compile.module.todolist.production" depends="register.custom.compilers" description="Compile module ToDoList; production classes">
+    <mkdir dir="${todolist.output.dir}"/>
+    <javac2 destdir="${todolist.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.todolist}/javac">
+      <compilerarg line="${compiler.args.todolist}"/>
+      <bootclasspath refid="todolist.module.bootclasspath"/>
+      <classpath refid="todolist.module.production.classpath"/>
+      <src refid="todolist.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.todolist"/>
+    </javac2>
+    
+    <copy todir="${todolist.output.dir}">
+      <fileset dir="${module.todolist.basedir}/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.todolist.tests" depends="register.custom.compilers,compile.module.todolist.production" description="compile module ToDoList; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.todolist" description="cleanup module">
+    <delete dir="${todolist.output.dir}"/>
+    <delete dir="${todolist.testoutput.dir}"/>
+  </target>
+</project>

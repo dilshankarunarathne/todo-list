@@ -1,0 +1,22 @@
+<component name="ArtifactManager">
+  <artifact type="javafx" build-on-make="true" name="ToDoList">
+    <output-path>$PROJECT_DIR$/out</output-path>
+    <properties id="javafx-properties">
+      <options>
+        <option name="appClass" value="com.example.toDoList.Main" />
+        <option name="description" value="" />
+        <option name="htmlPlaceholderId" value="" />
+        <option name="title" value="Todo" />
+        <option name="updateMode" value="always" />
+        <option name="vendor" value="zeeka (C) LLC." />
+        <option name="version" value="1.0" />
+      </options>
+    </properties>
+    <root id="root">
+      <element id="archive" name="ToDoList.jar">
+        <element id="module-output" name="ToDoList" />
+      </element>
+      <element id="archive" name="archive.jar" />
+    </root>
+  </artifact>
+</component>
